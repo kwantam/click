@@ -10990,6 +10990,7 @@ Can't find Linux compilation flags.
             -e 's,-Iarch/',-I$linux_builddir/arch/',g' \
             -e 's, include/, '$linux_builddir/include/,g \
             -e s,-Iinclude/,-I${linux_srcdir}include/,g \
+            -e s,-I\./,-I${linux_srcdir}/,g \
             -e s,-Wno-pointer-sign,,g \
             -e s,-fno-unit-at-a-time,,g \
             -e s,-Wstrict-prototypes,,g \
@@ -11017,7 +11018,7 @@ fixincludes.pl execution failed.
 
 ==============================================" "$LINENO" 5
         fi
-        LINUX_CFLAGS="`head -n 1 conftest.dat`"
+        LINUX_CFLAGS="`head -n 1 conftest.dat | sed 's,-include \./,-include '${linux_srcdir}'/,g;'`"
         LINUX_FIXINCLUDES_PROGRAM="| sed `tail -n 1 conftest.dat`"
         CLICKLINUX_FIXINCLUDES_PROGRAM="| sed `tail -n 1 conftest.dat | sed -e "s$tabchar$mydir$tabchar$clickbuild_includedir/click-linuxmodule${tabchar}g"`"
     fi
